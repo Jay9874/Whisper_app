@@ -8,6 +8,9 @@ const mongoose = require('mongoose');
 const data = require(__dirname+'/secrets.js');
 const _ = require('lodash');
 const encrypt = require('mongoose-encryption');
+const md5 = require('md5');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 
 
@@ -46,8 +49,6 @@ const usersSchema = new mongoose.Schema({
     }
 })
 
-
-usersSchema.plugin(encrypt, {secret: process.env.SECRET, encryptedFields: ['password']})
 
 
 const User = new mongoose.model('User', usersSchema);
@@ -95,20 +96,24 @@ app.post('/login', function(req, res){
             console.log(err);
         }else{
             if(foundUser){
-                if(foundUser.password === passWord){
-                    Post.find({}, function(err, foundPosts){
-                        if(err){
-                            console.log(err);
-                        }else {
-                            res.render('secrets', {
-                                foundPosts: foundPosts
-                            })
-                        }
-                    })
-                }
-                else {
-                    res.send('<h1>Wrong Password.</h1>');
-                }
+                bcrypt.compare(passWord, foundUser.password, function(err, result) {
+                    // result == true
+                    if(result === true){
+                        Post.find({}, function(err, foundPosts){
+                            if(err){
+                                console.log(err);
+                            }else {
+                                res.render('secrets', {
+                                    foundPosts: foundPosts
+                                })
+                            }
+                        })
+                    }
+                    else {
+                        res.send('<h1>Wrong Password.</h1>');
+                    }
+                });
+                
             }
             else{
                 res.send('<h1>No user found.</h1>')
@@ -119,22 +124,24 @@ app.post('/login', function(req, res){
 
 
 app.post('/register', function(req,res){
-    const userName = req.body.username;
-    const passWord = req.body.password;
-    const newUser = new User({
-        username: userName,
-        password: passWord
-    })
-    newUser.save();
-    Post.find({}, function(err, foundPosts){
-        if(err){
-            res.send(err);
-        }else {
-            res.render('secrets', {
-                foundPosts: foundPosts
-            })
-        }
-    })
+    bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+        const userName = req.body.username;
+        const newUser = new User({
+            username: userName,
+            password: hash
+        })
+        newUser.save();
+        Post.find({}, function(err, foundPosts){
+            if(err){
+                res.send(err);
+            }else {
+                res.render('secrets', {
+                    foundPosts: foundPosts
+                })
+            }
+        })
+    });
+    
 })
 
 app.post('/submit', function(req, res){
