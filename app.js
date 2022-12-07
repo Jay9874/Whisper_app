@@ -15,6 +15,7 @@ const md5 = require('md5');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const TwitterStrategy = require('passport-twitter');
 const findOrCreate = require('mongoose-findorcreate');
 
 
@@ -59,6 +60,7 @@ const usersSchema = new mongoose.Schema({
     username: String,
     password: String,
     googleId: String,
+    twitterId: String,
     secrets: [postsSchema]
 })
 
@@ -84,8 +86,6 @@ passport.serializeUser(function(user, cb) {
   });
 
 
-
-
 ///////////////////////////////////Google OAuthentication///////////////////////////
 
 passport.use(new GoogleStrategy({
@@ -101,6 +101,18 @@ passport.use(new GoogleStrategy({
   }
 ));
 
+//////////////////////////////////Twitter OAuthentication//////////////////////
+passport.use(new TwitterStrategy({
+    consumerKey: process.env.TWITTER_API_KEY,
+    consumerSecret: process.env.TWITTER_API_KEY_SECRET,
+    callbackURL: 'http://localhost:3000/auth/twitter/secrets'
+    },
+    function(accessToken, refreshToken, profile, cb) {
+        User.findOrCreate({twitterId: profile.id}, function(err, user){
+            return cb(err, user);
+        });
+    }
+));
 
 
 //////////////////Managing https GET requests////////////////////
@@ -109,6 +121,7 @@ app.get('/', function(req, res){
     res.render('home');
 })
 
+///Google URLs
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['profile'] }));
 
@@ -119,6 +132,18 @@ app.get('/auth/google/secrets',
     // Successful authentication, redirect secret.
     res.redirect('/secrets');
   });
+
+//Twitter URLs 
+app.get('/auth/twitter', 
+    passport.authenticate('twitter'));
+
+app.get('/auth/twitter/secrets', 
+    passport.authenticate('twitter', { failureRedirect: '/login' }),
+    function(req, res) {
+      // Successful authentication, redirect home.
+      res.redirect('/secrets');
+});
+
 
 
 app.get('/login', function(req, res){

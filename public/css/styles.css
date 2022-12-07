@@ -9,6 +9,10 @@ a {
   color: #000;
 }
 
+hr {
+  margin: 0;
+}
+
 /************************************************ Home route css ***************************************/
 .flex-img-container {
   display: flex;
@@ -57,6 +61,7 @@ a {
 }
 .item-verticle-line {
   border: 4px dashed #B2B2B2;
+  transform-origin: rotate(90deg);
 }
 
 
@@ -113,11 +118,10 @@ a {
   justify-content: center;
   background-color: #121127;
   flex-direction: column;
+  row-gap: 20px;
   color: #fff;
 }
-.remote-logo:hover {
-  color: #eee;
-}
+
 .remote-logo img {
   width: 36px;
 }
@@ -183,17 +187,19 @@ a {
   align-items: center;
   flex-direction: column;
   row-gap: 40px;
+  padding: 50px 0;
 }
 
 .main-items {
   display: flex;
   flex-direction: column;
-  height: 240px;
+  min-height: 240px;
   width: 360px;
   padding: 20px 10px 30px 10px;
   justify-content: space-between;
   border-radius: 20px;
   box-shadow: 0px 20px 50px rgba(18, 17, 39, 0.08);
+  background-color: rgb(221, 190, 236);
 
 }
 
