@@ -1,16 +1,246 @@
-
-body {
-  background-color: #E8ECEF;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.centered {
-    padding-top: 200px;
-    text-align: center;
+a {
+  text-decoration: none;
+  color: #000;
 }
 
-.secret-text {
+/************************************************ Home route css ***************************************/
+.flex-img-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-item-img {
+  height: 250px;
+  min-width: 300px;
+}
+
+.flex-item-img img {
+  width: 100%;
+  height: 100%;
+}
+
+.flex-startup-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 30px;
+  flex-wrap: wrap;
+  /* background-color: aqua; */
+  overflow: scroll;
+}
+
+.flex-opt-item {
+  max-width: 240px;
+  min-height: 200px;
+  margin: 20px 0;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
   text-align: center;
-  font-size: 2rem;
+  justify-content: space-around;
+  flex-direction: column;
+  background: #FFFFFF;
+  /* Drop Shadow / High */
+  box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
+  border-radius: 20px;
+}
+.register-item {
+  color: #FFFFFF;
+  background-color: #121127;
+}
+.item-verticle-line {
+  border: 4px dashed #B2B2B2;
+}
+
+
+
+/* Responsive */
+
+@media (max-width:787px) {
+  .flex-startup-container {
+    flex-direction: column;
+  }
+}
+
+
+/*************************************** Login/register route css ****************************************/
+
+.flex-heading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-heading-item {
+  margin: 80px 0;
+}
+
+.flex-actn-container {
+  display: flex;
+  justify-content: center;
+  column-gap: 20px;
+
+}
+.flex-actn-item {
+  width: 360px;
+  padding: 30px;
+/* Drop Shadow / High */
+
+  box-shadow: 0px 20px 50px rgba(18, 17, 39, 0.08);
+  border-radius: 20px;
+}
+
+.local-auth {
+  background: #FFFFFF;
+
+}
+
+.local-auth button {
+  margin: 20px 0;
+}
+
+
+.remote-auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #121127;
+  flex-direction: column;
   color: #fff;
-  background-color: #000;
+}
+.remote-logo:hover {
+  color: #eee;
+}
+.remote-logo img {
+  width: 36px;
+}
+
+
+@media (max-width:787px) {
+  .flex-actn-container {
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    row-gap: 20px;
+  }
+}
+
+
+/**************************************** Secrets route css *****************************************/
+
+.main-nav-flex {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  width: 100%;
+  backdrop-filter: saturate(180%) blur(20px);
+}
+
+
+.nav-flex-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding:  0 80px;
+
+}
+
+
+.sec-brand-img {
+  height: 150px;
+  width: 240px;
+}
+
+.sec-brand-img img {
+  width: 100%;
+  height: 100%;
+}
+
+.push-right {
+  display: flex;
+  margin-left: auto;
+  padding: 0 20px;
+  column-gap: 35px;
+}
+
+
+/* Main content of secret route */
+
+#main-content {
+  position: relative;
+  padding-top: 150px;
+}
+.flex-main-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 40px;
+}
+
+.main-items {
+  display: flex;
+  flex-direction: column;
+  height: 240px;
+  width: 360px;
+  padding: 20px 10px 30px 10px;
+  justify-content: space-between;
+  border-radius: 20px;
+  box-shadow: 0px 20px 50px rgba(18, 17, 39, 0.08);
+
+}
+
+.main-item-txt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+.flex-info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px;
+}
+
+
+/**************************************************** Submission route css *****************************8*/
+
+.submit-heading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-heading-item {
+  margin: 50px 0;
+}
+
+.submit-form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 36px;
+}
+
+.submit-form-item {
+  display: flex;
+  width: 540px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px 0;
+  border-radius: 20px;
+  box-shadow: 0px 20px 50px rgba(18, 17, 39, 0.08);
+}
+.submit-btn {
+  margin: 30px 0 0 0;
 }

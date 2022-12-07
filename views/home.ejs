@@ -1,15 +1,22 @@
 <%- include('partials/header') %>
 
 
-<div class="jumbotron centered">
-  <div class="container">
-    <i class="fas fa-key fa-6x"></i>
-    <h1 class="display-3">Secrets</h1>
-    <p class="lead">Don't keep your secrets, share them anonymously!</p>
-    <hr>
-    <a class="btn btn-light btn-lg" href="/register" role="button">Register</a>
-    <a class="btn btn-dark btn-lg" href="/login" role="button">Login</a>
+<div class="flex-img-container">
+  <div class="flex-item-img">
+    <img class="brand-image" src="images/for_brand.png" alt="brand_image">
+  </div>
+</div>
 
+
+<div class="flex-startup-container">
+  <div class="flex-opt-item login-item">
+    <p>If you already have registered before.</p>
+    <a class="btn btn-dark btn-lg" href="/login" role="button">Login</a>
+  </div>
+  <div class="item-verticle-line"></div>
+  <div class="flex-opt-item register-item">
+    <p>If you are visiting the first time.</p>
+    <a class="btn btn-light btn-lg" href="/register" role="button">Register</a>
   </div>
 </div>
 

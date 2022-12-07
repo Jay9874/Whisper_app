@@ -1,5 +1,38 @@
 <%- include('partials/header') %>
 
+
+<div class="flex-heading-container">
+  <div class="flex-heading-item">
+    <h1>Login</h1>
+  </div>
+</div>
+
+  <div class="flex-actn-container">
+    <div class="flex-actn-item local-auth">
+      <form action="/login" method="POST">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" name="username">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" name="password">
+        <button type="submit" class="btn btn-dark">Login</button>
+      </form>
+    </div>
+    <div class="flex-actn-item remote-auth">
+      <div class="remote-header">
+        <p>Continue with</p>
+      </div>
+      <div class="remote-links">
+        <a href="/auth/google" role="button">
+          <div class="remote-logo">
+            <img src="images/google.png" alt="google_logo">
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 
 <div class="container mt-5">
   <h1>Login</h1>
 
@@ -8,8 +41,8 @@
       <div class="card">
         <div class="card-body">
 
-          <!-- Makes POST request to /login route -->
-          <form action="/login" method="POST">
+          Makes POST request to /login route -->
+          <!-- <form action="/login" method="POST">
             <div class="form-group">
               <label for="email">Email</label>
               <input type="email" class="form-control" name="username">
@@ -36,7 +69,7 @@
       </div>
     </div>
 
-  </div>
-</div>
+  </div> -->
+<!-- </div> -->
 
 <%- include('partials/footer') %>

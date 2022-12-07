@@ -106,7 +106,6 @@ passport.use(new GoogleStrategy({
 //////////////////Managing https GET requests////////////////////
 
 app.get('/', function(req, res){
-    console.log(req.user);
     res.render('home');
 })
 
