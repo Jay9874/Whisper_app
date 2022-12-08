@@ -4,6 +4,24 @@
   padding: 0;
 }
 
+html {
+  background-color: rgba(26, 195, 195, 0.567);
+}
+
+body {
+  background: url("../images/bg.jpg") no-repeat center fixed;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-size: cover;
+  padding: 0;
+  margin: 0;
+
+}
+
+h4 {
+  font-weight: 180;
+}
+
 a {
   text-decoration: none;
   color: #000;
@@ -11,6 +29,13 @@ a {
 
 hr {
   margin: 0;
+}
+
+#main-content-other {
+  height: 100vh;
+  width: 100vw;
+  backdrop-filter: saturate(180%) blur(20px);
+
 }
 
 /************************************************ Home route css ***************************************/
@@ -59,11 +84,6 @@ hr {
   color: #FFFFFF;
   background-color: #121127;
 }
-.item-verticle-line {
-  border: 4px dashed #B2B2B2;
-  transform-origin: rotate(90deg);
-}
-
 
 
 /* Responsive */
@@ -140,12 +160,12 @@ hr {
 /**************************************** Secrets route css *****************************************/
 
 .main-nav-flex {
-  position: fixed;
+  position: relative;
   left: 0;
   top: 0;
   z-index: 9999;
   width: 100%;
-  backdrop-filter: saturate(180%) blur(20px);
+  /* backdrop-filter: saturate(180%) blur(20px); */
 }
 
 
@@ -173,6 +193,7 @@ hr {
   margin-left: auto;
   padding: 0 20px;
   column-gap: 35px;
+  flex-wrap: wrap;
 }
 
 
@@ -181,6 +202,9 @@ hr {
 #main-content {
   position: relative;
   padding-top: 150px;
+  min-height: 100vh;
+  min-width: 100vw;
+  backdrop-filter: saturate(180%) blur(20px);
 }
 .flex-main-container {
   display: flex;
@@ -195,7 +219,7 @@ hr {
   flex-direction: column;
   min-height: 240px;
   width: 360px;
-  padding: 20px 10px 30px 10px;
+  padding: 20px 10px 15px 10px;
   justify-content: space-between;
   border-radius: 20px;
   box-shadow: 0px 20px 50px rgba(18, 17, 39, 0.08);
@@ -216,11 +240,32 @@ hr {
   padding: 5px 20px;
 }
 
+.info-item {
+  text-align: center;
+  line-height: 0.8rem;
+}
+
+.info-likes p {
+  padding: 0;
+  margin: 0;
+}
+
+.like-btn {
+  border: none;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+.hitted-like {
+  color: red;
+}
 
 /**************************************************** Submission route css *****************************8*/
 
 .submit-heading-container {
   display: flex;
+  padding: 0 25px;
   align-items: center;
   justify-content: center;
 }

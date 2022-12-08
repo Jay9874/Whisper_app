@@ -1,4 +1,5 @@
 <%- include('partials/header') %>
+<section id="main-content-other">
 <div class="submit-heading-container">
   <div class="submit-heading-item">
     <h1>Share your secrets anonymously.</h1>
@@ -7,10 +8,11 @@
 <div class="submit-form-container">
   <div class="submit-form-item">
     <form action="/submit" method="POST">
-        <textarea type="text" class="form-control text-center" autocomplete="off" autofocus rows="5" cols="30" name="secret" placeholder="What's your secret?"></textarea>
+        <textarea aria-required="true" type="text" class="form-control text-center" autocomplete="off" autofocus rows="5" cols="30" name="secret" placeholder="What's your secret?"></textarea>
       <button type="submit" class="submit-btn btn btn-dark">Submit</button>
     </form>
   </div>
 </div>
+</section>
    
 <%- include('partials/footer') %>

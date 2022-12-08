@@ -1,4 +1,5 @@
 <%- include('partials/header') %>
+<section id="main-content-other">
   <div class="flex-heading-container">
     <div class="flex-heading-item">
       <h1>Register</h1>
@@ -9,9 +10,9 @@
       <div class="flex-actn-item local-auth">
         <form action="/register" method="POST">
             <label for="email">Email</label>
-            <input type="email" class="form-control" name="username">
+            <input aria-required="true" type="email" class="form-control" name="username">
             <label for="password">Password</label>
-            <input type="password" class="form-control" name="password">
+            <input aria-required="true" type="password" class="form-control" name="password">
           <button type="submit" class="btn btn-dark">Register</button>
         </form>
       </div>
@@ -36,5 +37,6 @@
       </div>
     </div>
   </div>
+</section>
 
   <%- include('partials/footer') %>
