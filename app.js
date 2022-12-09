@@ -95,7 +95,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/auth/google/secrets'
+      callbackURL: 'https://whisperapp.up.railway.app/auth/google/secrets'
       // userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
     },
     function (accessToken, refreshToken, profile, cb) {
@@ -112,7 +112,7 @@ passport.use(
     {
       consumerKey: process.env.TWITTER_API_KEY,
       consumerSecret: process.env.TWITTER_API_KEY_SECRET,
-      callbackURL: 'http://localhost:3000/auth/twitter/secrets'
+      callbackURL: 'https://whisperapp.up.railway.app/auth/twitter/secrets'
     },
     function (accessToken, refreshToken, profile, cb) {
       User.findOrCreate({ twitterId: profile.id }, function (err, user) {
