@@ -40,7 +40,6 @@ app.use(
 )
 app.use(passport.initialize())
 app.use(passport.session())
-
 //////////////////////////////Connecting with mongoDB server//////////////////////////////////
 mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@whisper.bpxmguu.mongodb.net/whisperDB`);
 
