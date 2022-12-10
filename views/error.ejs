@@ -1,5 +1,39 @@
 <%- include('partials/header') %>
-<h1>404</h1>
-<h3>Page not found.</h3>
+
+<nav class="main-nav-flex">
+  <div class="nav-flex-container">
+    <div class="nav-flex-item">
+      <div class="brand-link">
+        <a href="/">
+          <div class="sec-brand-img">
+            <img src="images/for_brand.png" alt="brand_logo">
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="push-right">
+      <div class="flex-right-item">
+        <a href="/logout">
+          <h4 class="logout">logout</h4>
+        </a>
+      </div>
+      <div class="flex-right-item">
+        <a href="/submit">
+          <h4>Add a secret</h4>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<section id="main-content">
+    <div class="flex-error-container">
+        <div class="error-msg">
+            <h1>Oh..oh</h1>
+            <h3><%=errorMsg%></h3>
+        </div>
+    </div>
+</section>
 
 <%- include('partials/footer') %>

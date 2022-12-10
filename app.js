@@ -43,30 +43,28 @@ app.use(passport.session())
 mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@whisper.bpxmguu.mongodb.net/whisperDB`);
 
 
-////////////////////////////Schema and Model for Posts////////////////////////////
-
-const postsSchema = new mongoose.Schema({
-    desc: {
-      type: String,
-      required: [true, 'No description.']
-    },
-    totalLikes: Number,
-    dateAdded: String
-  })
-  const Post = new mongoose.model('Post', postsSchema)
-
-
 ///////////////////////// Schema and Model for Users///////////////////////
 
 const usersSchema = new mongoose.Schema({
   username: String,
   password: String,
   googleId: String,
-  twitterId: String,
-  secrets: [postsSchema],
-  likedSecrets: [postsSchema]
+  twitterId: String
 })
 
+
+////////////////////////////Schema and Model for Posts////////////////////////////
+
+const postsSchema = new mongoose.Schema({
+  desc: {
+    type: String,
+    required: [true, 'No description.']
+  },
+  likeCount: Number,
+  dateAdded: String,
+  likes: [],
+})
+const Post = new mongoose.model('Post', postsSchema)
 
 
 usersSchema.plugin(passportLocalMongoose)
@@ -121,36 +119,6 @@ passport.use(
     }
   )
 )
-
-////////////////////////////////All Functions()//////////////////////
-// exports.updateLikeCnt = function(secretId, updateBy, reqId, req, res){
-//     {
-//         if(err){
-//             res.send(err);
-//         }else {
-//             User.findById(reqId, function(err, foundUser){
-//                 if(err){
-//                     res.send(err);
-//                 }else {
-//                     if(foundUser){
-//                         if(updateBy === -1){
-//
-//                             res.redirect('/secrets');
-//                         }else if(updateBy === 1){
-//                             console.log(`update is: ${updateBy}`);
-//                             console.log(foundPost);
-//                             foundUser.likedSecrets.push(foundPost);
-//                             foundUser.save();
-//                             res.redirect('/secrets');
-//                         }
-//                     }else {
-//                         res.redirect('/login');
-//                     }
-//                 }
-//             })
-//         }
-//     })
-// }
 
 //////////////////Managing https GET requests////////////////////
 
@@ -216,21 +184,26 @@ app.get('/logout', function (req, res, next) {
 
 app.get('/secrets', function (req, res) {
   if (req.isAuthenticated()) {
-    Post.find({}, function (err, foundPosts) {
-      if (err) {
-        console.log(err)
-      } else {
-            User.findById({_id:req.user.id}, function(err, foundUser){
-                const allLikedPosts = foundUser.likedSecrets;
-                res.render('secrets', {
-                secret: foundPosts,
-                userLiked: allLikedPosts
-                })
-            })
-       }
-    })
+    Post.find({}, function(err, foundPosts){
+      if(err){
+        console.log(err);
+      }else {
+        if(foundPosts.length === 0){
+            res.render('error', {
+            errorMsg: 'Seems like not posts yet.'
+          })
+        }else {
+            res.render('secrets',{
+            secret: foundPosts,
+            currUsr: req.user.id
+          })
+        }
+      }
+    });
+  }else {
+    res.redirect('/login');
   }
-})
+});
 
 /////////////////////////////////HTTP POST REQUESTS//////////////////////
 
@@ -255,7 +228,7 @@ app.post('/login', function (req, res) {
           }
         })
       } else {
-        res.send('<h1>No user found.</h1>')
+        res.send('<h1>No user found.</h1>');
       }
     }
   })
@@ -306,27 +279,15 @@ app.post('/register', function (req, res) {
 
 app.post('/submit', function (req, res) {
   const secretDes = req.body.secret
-  User.findById(req.user.id, function (err, foundUser) {
-    if (err) {
-      console.log(err)
-    } else {
-      if (foundUser) {
-        const newPost = new Post({
-          desc: secretDes,
-          dateAdded: dateStr.getDateStr(),
-          totalLikes: 0
-        })
-        newPost.save()
-        foundUser.secrets.push(newPost)
-        foundUser.save(function () {
-          res.redirect('/secrets')
-        })
-      } else {
-        res.redirect('/login')
-      }
-    }
+  const newPost = new Post({
+    desc: secretDes,
+    dateAdded: dateStr.getDateStr(),
+    likeCount: 0
   })
-})
+  newPost.save();
+  res.redirect('/secrets');
+  
+});
 
 app.post('/logout', function (req, res, next) {
   req.logout(function (err) {
@@ -343,30 +304,46 @@ app.post('/addRemoveLike', function (req, res) {
     if(req.isAuthenticated()){
     const secretId = req.body.secretId
     const reqId = req.user.id
-    User.findById(reqId, function (err, foundUser) {
-      Post.findById(secretId, function (err, foundPost) {
-        const allPosts = foundUser.likedSecrets;
-        if (allPosts.length !== 0) {
-          const anyPost = allPosts.some(post => post._id == secretId)
-          if (anyPost) {
-            foundPost.totalLikes--;
-            foundPost.save();
-            const indexOfObject = allPosts.findIndex(object => {
-                return object._id == secretId;
-              });
-            allPosts.splice(indexOfObject, 1);
-            foundUser.save()
-           }
-            res.redirect('/secrets')
-        } else {
-          foundPost.totalLikes++;
-          foundPost.save();
-          allPosts.push(foundPost);
-          foundUser.save();
-          res.redirect('/secrets');
+      Post.updateOne(
+        {
+          "_id": secretId, 
+        "likes": { $ne: reqId }
+        },
+        {
+          $inc: { "likeCount": 1 },
+          $push: { "likes": reqId}
+      }, function(err, result){
+        if(err){
+          console.log(err)
+        }else {
+          if(result.modifiedCount === 1){
+            res.redirect('/secrets');
+          }else{
+            Post.updateOne(
+              {
+                "_id": secretId,
+                "likes": reqId
+              },
+              {
+                $inc: {"likeCount": -1},
+                $pull: {"likes": reqId}
+              },function(err, reslt){
+                if(err){
+                  console.log(err);
+                }else {
+                  if(reslt.modifiedCount === 1){
+                    res.redirect('/secrets');
+                  }
+                  else{
+                    res.redirect('/login');
+                  }
+                }
+              }
+            )
+          }
         }
-      })
-    })
+      }
+      )
     }else {
         res.redirect('/login');
     }
