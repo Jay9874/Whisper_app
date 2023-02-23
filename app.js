@@ -27,6 +27,7 @@ app.use(
     extended: true
   })
 )
+const PORT = process.env.PORT || 8080;
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
@@ -40,8 +41,16 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 //////////////////////////////Connecting with mongoDB server//////////////////////////////////
-mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@whisper.bpxmguu.mongodb.net/whisperDB`);
-
+const db = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@whisper.bpxmguu.mongodb.net/whisperDB`;
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(db);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
 
 ///////////////////////// Schema and Model for Users///////////////////////
 
@@ -350,6 +359,8 @@ app.post('/addRemoveLike', function (req, res) {
 })
 
 //////////////////////////////////Listening requests on post 3000//////////////////////
-app.listen(process.env.PORT || 3000, function () {
-  console.log('Server started on port 3000')
+connectDB().then(() => {
+  app.listen(PORT, () => {
+      console.log("listening for requests");
+  })
 })
